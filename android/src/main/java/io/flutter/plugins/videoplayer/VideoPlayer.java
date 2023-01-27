@@ -90,8 +90,8 @@ final class VideoPlayer {
     } else {
       dataSourceFactory = new DefaultDataSource.Factory(context);
     }
-
-    MediaSource mediaSource = buildMediaSource(uri, dataSourceFactory, formatHint, context);
+    
+    MediaSource mediaSource = buildMediaSource(context, uri, dataSourceFactory, formatHint);
 
     exoPlayer.setMediaSource(mediaSource);
     exoPlayer.prepare();
@@ -123,8 +123,8 @@ final class VideoPlayer {
     return scheme.equals("http") || scheme.equals("https");
   }
 
-  private MediaSource buildMediaSource(
-      Uri uri, DataSource.Factory mediaDataSourceFactory, String formatHint, Context context) {
+  private MediaSource buildMediaSource(Context context,
+      Uri uri, DataSource.Factory mediaDataSourceFactory, String formatHint) {
     int type;
     if (formatHint == null) {
       type = Util.inferContentType(uri);
@@ -172,31 +172,19 @@ final class VideoPlayer {
   }
 
 
-   private void setDataSource(TextureRegistry.SurfaceTextureEntry textureEntry,
-                               String dataSource){
-
-       Uri uri = Uri.parse(dataSource);
-       DataSource.Factory dataSourceFactory;
-
-       if (isHTTP(uri)) {
-           DefaultHttpDataSource.Factory httpDataSourceFactory =
-                   new DefaultHttpDataSource.Factory()
-                           .setUserAgent("ExoPlayer")
+ void setDataSource(
+     Context context,
+     String dataSource,
+     String formatHint,
+     @NonNull Map<String, String> httpHeaders){
+         Uri uri = Uri.parse(dataSource);
+         DefaultHttpDataSource.Factory httpDataSourceFactory = new DefaultHttpDataSource.Factory().setUserAgent("ExoPlayer")
                            .setAllowCrossProtocolRedirects(true);
-
-           if (httpHeaders != null && !httpHeaders.isEmpty()) {
-               httpDataSourceFactory.setDefaultRequestProperties(httpHeaders);
-           }
-           dataSourceFactory = httpDataSourceFactory;
-       } else {
-           dataSourceFactory = new DefaultDataSource.Factory(context);
-       }
-
-       MediaSource mediaSource = buildMediaSource(uri, dataSourceFactory, formatHint, context);
-
-       exoPlayer.setMediaSource(mediaSource);
-       exoPlayer.prepare();
-
+       MediaSource mediaSource = buildMediaSource(context, uri, httpDataSourceFactory, formatHint);
+       this.exoPlayer.stop();
+       this.exoPlayer.setMediaSource(mediaSource);
+       this.exoPlayer.prepare();
+       setUpVideoPlayer(this.exoPlayer, this.eventSink);
      }
 
 

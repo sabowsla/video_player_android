@@ -63,6 +63,8 @@ class AndroidVideoPlayer extends VideoPlayerPlatform {
     );
 
     final TextureMessage response = await _api.create(message);
+    debugPrint(
+        "Sending datasource message ${message.uri} ${message.asset} ${message.httpHeaders} response is ${response.textureId}");
     return response.textureId;
   }
 
@@ -155,14 +157,18 @@ class AndroidVideoPlayer extends VideoPlayerPlatform {
 
   @override
   Future<void> setDataSource(int? textureId, DataSource dataSource) async {
-    final CreateMessage message = CreateMessage(
+    final SourceMessage message = SourceMessage(
       asset: dataSource.asset,
-      packageName: dataSource.package,
+      textureId: textureId,
       uri: dataSource.uri,
       httpHeaders: dataSource.httpHeaders,
       formatHint: _videoFormatStringMap[dataSource.formatHint],
     );
-    return _api.setDataSource(message);
+
+    var response = await _api.setDataSource(message);
+    debugPrint(
+        "Sending datasource message ${message.uri} ${message.asset} ${message.httpHeaders} response is ");
+    return response;
   }
 
   @override

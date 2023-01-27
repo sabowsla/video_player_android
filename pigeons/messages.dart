@@ -13,9 +13,21 @@ import 'package:pigeon/pigeon.dart';
   ),
   copyrightHeader: 'pigeons/copyright.txt',
 ))
+
+
 class TextureMessage {
   TextureMessage(this.textureId);
   int textureId;
+}
+
+class SourceMessage {
+  SourceMessage(this.textureId, this.asset, this.uri, this.packageName, this.formatHint, this.httpHeaders);
+  int? textureId;
+  String? asset;
+  String? packageName;
+  String? uri;
+  String? formatHint;
+  Map<String?, String?> httpHeaders;
 }
 
 class LoopingMessage {
@@ -64,6 +76,7 @@ abstract class AndroidVideoPlayerApi {
   void setLooping(LoopingMessage msg);
   void setVolume(VolumeMessage msg);
   void setPlaybackSpeed(PlaybackSpeedMessage msg);
+  void setDataSource(SourceMessage msg);
   void play(TextureMessage msg);
   PositionMessage position(TextureMessage msg);
   void seekTo(PositionMessage msg);

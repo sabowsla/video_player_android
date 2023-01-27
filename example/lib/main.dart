@@ -149,8 +149,8 @@ class _BumbleBeeRemoteVideoState extends State<_BumbleBeeRemoteVideo> {
   void changeDataSource() async {
     log("Chaning data source");
     var ranbow =
-        'https://player.vimeo.com/external/792363189.m3u8?s=db11a726ef77a44e11de39e379c4a680f94bd55c';
-    log("Changing data source");
+        'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+    log("Changing data source #");
     try {
       DataSource dataSource =
           DataSource(uri: ranbow, sourceType: DataSourceType.network);

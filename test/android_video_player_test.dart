@@ -20,6 +20,7 @@ class _ApiLogger implements TestHostVideoPlayerApi {
   CreateMessage? createMessage;
   PositionMessage? positionMessage;
   LoopingMessage? loopingMessage;
+  SourceMessage? sourceMessage;
   VolumeMessage? volumeMessage;
   PlaybackSpeedMessage? playbackSpeedMessage;
   MixWithOthersMessage? mixWithOthersMessage;
@@ -89,6 +90,12 @@ class _ApiLogger implements TestHostVideoPlayerApi {
   void setPlaybackSpeed(PlaybackSpeedMessage arg) {
     log.add('setPlaybackSpeed');
     playbackSpeedMessage = arg;
+  }
+
+  @override
+  void setDataSource(SourceMessage msg) {
+    log.add('setDataSource');
+    sourceMessage = msg;
   }
 }
 
