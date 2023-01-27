@@ -181,9 +181,9 @@ final class VideoPlayer {
          DefaultHttpDataSource.Factory httpDataSourceFactory = new DefaultHttpDataSource.Factory().setUserAgent("ExoPlayer")
                            .setAllowCrossProtocolRedirects(true);
        MediaSource mediaSource = buildMediaSource(context, uri, httpDataSourceFactory, formatHint);
-       this.exoPlayer.stop();
        this.exoPlayer.setMediaSource(mediaSource);
        this.exoPlayer.prepare();
+       this.exoPlayer.play();
        setUpVideoPlayer(this.exoPlayer, this.eventSink);
      }
 
